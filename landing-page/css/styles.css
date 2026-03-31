@@ -1,0 +1,37 @@
+/* Configuraciones base */
+:root {
+    --azul-obra: #1B263B;
+    --naranja-seguridad: #F28705;
+    --gris-concreto: #F4F4F4;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Animación de entrada para el Dashboard */
+.fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo para los botones de acción */
+.btn-primary {
+    background-color: var(--azul-obra);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0d1b2a;
+    transform: translateY(-2px);
+}

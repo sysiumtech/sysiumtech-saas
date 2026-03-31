@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSIUM TECH | Control de Obra para PYMES en México</title>
+    <!-- Tailwind via CDN para prototipado rápido -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Tu CSS Personalizado -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 font-['Inter']">
+
+    <!-- Header / Nav -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-sm border-b z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="text-2xl font-black text-slate-900">SYSIUM<span class="text-orange-500">TECH</span></div>
+            <div class="hidden md:flex space-x-8 text-slate-600 font-semibold">
+                <a href="#solucion">Solución</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#contacto" class="text-orange-600">Probar Gratis</a>
+            </div>
+        </div>
+    </nav>
+    <!-- En tu Navbar del Portal, actualiza los botones así: -->
+    <div class="hidden md:flex space-x-8 font-medium text-slate-600 items-center">
+    <a href="#solucion" class="hover:text-blue-900 transition">Solución</a>
+    <!-- Enlace directo al Login de la App -->
+    <a href="/login" class="hover:text-blue-900 transition font-bold">Iniciar Sesión</a>
+    
+    <!-- CTA Principal que lleva al registro o demo -->
+    <a href="/login" class="bg-blue-900 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-blue-800 transition shadow-lg shadow-blue-900/20">
+        Prueba Gratis
+    </a>
+    </div>
+
+    <!-- Hero -->
+    <header class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="fade-in-up">
+                <h1 class="text-5xl font-extrabold text-slate-900 leading-tight">Digitaliza tu constructora hoy mismo.</h1>
+                <p class="mt-6 text-xl text-slate-600">Adiós a las fugas de material y reportes en papel. La herramienta definitiva para la constructora mexicana moderna.</p>
+                <div class="mt-10 flex gap-4">
+                    <a href="#contacto" class="btn-primary text-white px-8 py-4 rounded-lg font-bold">Empezar ahora</a>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="bg-slate-200 rounded-2xl h-64 lg:h-96 shadow-2xl flex items-center justify-center italic text-slate-400">
+                    [Inserta aquí tu captura de pantalla del Dashboard]
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Footer Simple -->
+    <footer class="bg-slate-900 text-white py-12 text-center">
+        <p>© 2026 SYSIUM TECH México. Hecho para ingenieros, por ingenieros.</p>
+    </footer>
+
+</body>
+</html>

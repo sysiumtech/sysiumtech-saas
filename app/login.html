@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | BuildSaaS App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 h-screen flex items-center justify-center px-4">
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-slate-900">Bienvenido de nuevo</h2>
+            <p class="text-slate-500">Ingresa para gestionar tus obras</p>
+        </div>
+        <form action="/app" class="space-y-6">
+            <div>
+                <label class="block text-sm font-semibold mb-2">Correo Corporativo</label>
+                <input type="email" placeholder="nombre@constructora.com" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-900 outline-none" required>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold mb-2">Contraseña</label>
+                <input type="password" placeholder="••••••••" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-900 outline-none" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition">
+                Iniciar Sesión
+            </button>
+        </form>
+        <p class="mt-6 text-center text-sm text-slate-500">
+            ¿No tienes cuenta? <a href="/#contacto" class="text-blue-900 font-bold">Contáctanos</a>
+        </p>
+    </div>
+    <!-- Dentro de tu archivo app/login.html, antes de cerrar el </body> -->
+<script>
+    const loginForm = document.querySelector('form');
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault(); // Evita que la página se recargue
+        
+        // Aquí iría la validación con tu base de datos (Supabase/Firebase)
+        // Por ahora, simulamos éxito y redirigimos al Dashboard
+        const button = e.target.querySelector('button');
+        button.innerText = "Verificando...";
+        button.disabled = true;
+
+        setTimeout(() => {
+            window.location.href = "/dashboard";
+        }, 1000);
+    });
+</script>
+</body>
+</html>
