@@ -1,63 +1,89 @@
 import Link from 'next/link'
-import { Check, Zap } from 'lucide-react'
+import { Check, Zap, Building2 } from 'lucide-react'
 
 const plans = [
   {
     name: 'Starter',
+    prefix: '',
     price: 'Gratis',
     period: 'para siempre',
-    description: 'Ideal para comenzar a digitalizar tu primera obra.',
+    description: 'Para comenzar a digitalizar tu primera obra sin riesgo.',
     cta: 'Empieza gratis',
     href: '/register',
     featured: false,
+    enterprise: false,
     features: [
       '1 proyecto activo',
       'Hasta 3 usuarios',
-      'Gestión de presupuesto básica',
+      'Presupuesto básico',
       'Inventario de materiales',
       'Soporte por email',
     ],
   },
   {
     name: 'Pro',
-    price: '$299',
+    prefix: '',
+    price: '$1,990',
     period: 'MXN / mes',
     description: 'Para constructoras con múltiples proyectos en curso.',
     cta: 'Comenzar prueba gratis',
     href: '/register?plan=pro',
     featured: true,
+    enterprise: false,
     features: [
-      'Hasta 10 proyectos activos',
-      'Hasta 15 usuarios',
-      'Reportes automáticos en PDF',
+      'Hasta 5 proyectos activos',
+      'Hasta 10 usuarios',
+      'Reportes automáticos PDF',
       'Alertas inteligentes',
       'Control de presupuesto avanzado',
       'Soporte prioritario en español',
     ],
   },
   {
-    name: 'Enterprise',
-    price: '$799',
+    name: 'Business',
+    prefix: '',
+    price: '$4,900',
     period: 'MXN / mes',
-    description: 'Para empresas con operaciones a gran escala en LATAM.',
+    description: 'Para empresas constructoras en crecimiento con múltiples frentes.',
+    cta: 'Iniciar prueba',
+    href: '/register?plan=business',
+    featured: false,
+    enterprise: false,
+    features: [
+      'Hasta 20 proyectos activos',
+      'Hasta 30 usuarios',
+      'Todo lo del plan Pro',
+      'API e integraciones',
+      'Dashboard ejecutivo',
+      'Onboarding personalizado',
+    ],
+  },
+  {
+    name: 'Enterprise',
+    prefix: 'Desde',
+    price: '$9,900',
+    period: 'MXN / mes',
+    description: 'Para grupos constructores con operaciones a gran escala en LATAM.',
     cta: 'Contactar ventas',
     href: '/register?plan=enterprise',
     featured: false,
+    enterprise: true,
     features: [
       'Proyectos ilimitados',
       'Usuarios ilimitados',
-      'API e integraciones',
+      'Todo lo del plan Business',
       'Panel multi-empresa',
-      'Onboarding personalizado',
-      'SLA y soporte dedicado',
+      'SLA garantizado',
+      'Soporte dedicado 24/7',
     ],
   },
 ]
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="bg-white py-24">
+    <section id="pricing" className="bg-slate-50 py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         <div className="text-center mb-16">
           <span className="text-sysium-600 text-sm font-bold uppercase tracking-widest">
             Precios
@@ -72,18 +98,20 @@ export default function Pricing() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`relative rounded-2xl p-8 ${
+              className={`relative rounded-2xl p-7 flex flex-col ${
                 plan.featured
-                  ? 'bg-gradient-to-b from-sysium-900 to-sysium-950 text-white shadow-2xl shadow-sysium-900/40 scale-105'
+                  ? 'bg-gradient-to-b from-sysium-900 to-sysium-950 text-white shadow-2xl shadow-sysium-900/40 lg:-mt-4 lg:pb-11'
+                  : plan.enterprise
+                  ? 'bg-[#0d1117] text-white border border-slate-700'
                   : 'bg-white border border-slate-200 text-slate-900'
               }`}
             >
               {plan.featured && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
                   <span className="inline-flex items-center gap-1 bg-gradient-to-r from-orange-500 to-orange-400 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
                     <Zap className="w-3 h-3" />
                     Más popular
@@ -91,41 +119,70 @@ export default function Pricing() {
                 </div>
               )}
 
-              <div className="mb-6">
-                <p className={`text-sm font-semibold mb-1 ${plan.featured ? 'text-sysium-300' : 'text-sysium-600'}`}>
+              {plan.enterprise && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                  <span className="inline-flex items-center gap-1 bg-gradient-to-r from-slate-600 to-slate-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
+                    <Building2 className="w-3 h-3" />
+                    A medida
+                  </span>
+                </div>
+              )}
+
+              {/* Header */}
+              <div className="mb-5">
+                <p className={`text-xs font-bold uppercase tracking-widest mb-3 ${
+                  plan.featured ? 'text-sysium-300' : plan.enterprise ? 'text-slate-400' : 'text-sysium-600'
+                }`}>
                   {plan.name}
                 </p>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black">{plan.price}</span>
-                  <span className={`text-sm ${plan.featured ? 'text-sysium-400' : 'text-slate-400'}`}>
+
+                <div className="flex items-baseline gap-1 flex-wrap">
+                  {plan.prefix && (
+                    <span className={`text-sm font-medium ${
+                      plan.enterprise ? 'text-slate-400' : 'text-slate-400'
+                    }`}>
+                      {plan.prefix}
+                    </span>
+                  )}
+                  <span className="text-3xl font-black leading-none">{plan.price}</span>
+                  <span className={`text-xs ${
+                    plan.featured ? 'text-sysium-400' : plan.enterprise ? 'text-slate-500' : 'text-slate-400'
+                  }`}>
                     {plan.period}
                   </span>
                 </div>
-                <p className={`mt-2 text-sm ${plan.featured ? 'text-sysium-300' : 'text-slate-500'}`}>
+
+                <p className={`mt-3 text-xs leading-relaxed ${
+                  plan.featured ? 'text-sysium-300' : plan.enterprise ? 'text-slate-400' : 'text-slate-500'
+                }`}>
                   {plan.description}
                 </p>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              {/* Features */}
+              <ul className="space-y-2.5 mb-7 flex-1">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2.5 text-sm">
-                    <Check
-                      className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                        plan.featured ? 'text-sysium-300' : 'text-sysium-500'
-                      }`}
-                    />
-                    <span className={plan.featured ? 'text-slate-200' : 'text-slate-600'}>
+                  <li key={feature} className="flex items-start gap-2 text-xs">
+                    <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
+                      plan.featured ? 'text-sysium-300' : plan.enterprise ? 'text-slate-400' : 'text-sysium-500'
+                    }`} />
+                    <span className={
+                      plan.featured ? 'text-slate-200' : plan.enterprise ? 'text-slate-300' : 'text-slate-600'
+                    }>
                       {feature}
                     </span>
                   </li>
                 ))}
               </ul>
 
+              {/* CTA */}
               <Link
                 href={plan.href}
-                className={`block text-center font-bold py-3 rounded-xl transition-all text-sm ${
+                className={`block text-center font-bold py-3 rounded-xl transition-all text-sm mt-auto ${
                   plan.featured
                     ? 'bg-white text-sysium-900 hover:bg-slate-100'
+                    : plan.enterprise
+                    ? 'bg-slate-700 text-white hover:bg-slate-600 border border-slate-600'
                     : 'bg-sysium-600 text-white hover:bg-sysium-500'
                 }`}
               >
@@ -134,6 +191,12 @@ export default function Pricing() {
             </div>
           ))}
         </div>
+
+        {/* Footer note */}
+        <p className="text-center text-slate-400 text-xs mt-10">
+          Todos los precios en MXN + IVA. Sin contrato de permanencia. Cancela cuando quieras.
+        </p>
+
       </div>
     </section>
   )
