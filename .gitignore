@@ -1,5 +1,22 @@
-.DS_Store
+# Dependencies
 node_modules
-.env
+
+# Build output
+.next/
 dist
 build
+out
+
+# Environment variables (nunca subir al repo)
+.env
+.env.local
+.env.production
+.env*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

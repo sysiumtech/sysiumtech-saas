@@ -20,8 +20,8 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: '$19',
-    period: 'USD / mes',
+    price: '$299',
+    period: 'MXN / mes',
     description: 'Para constructoras con múltiples proyectos en curso.',
     cta: 'Comenzar prueba gratis',
     href: '/register?plan=pro',
@@ -37,8 +37,8 @@ const plans = [
   },
   {
     name: 'Enterprise',
-    price: '$49',
-    period: 'USD / mes',
+    price: '$799',
+    period: 'MXN / mes',
     description: 'Para empresas con operaciones a gran escala en LATAM.',
     cta: 'Contactar ventas',
     href: '/register?plan=enterprise',
