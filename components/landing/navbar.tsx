@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Zap } from 'lucide-react'
+import Image from 'next/image'
+import { Menu, X } from 'lucide-react'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -12,9 +13,13 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16" aria-label="Navegación principal">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sysium-500 to-orange-500 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" strokeWidth={2.5} aria-hidden="true" />
-          </div>
+          <Image
+            src="/logo_sysium_icon_v2.jpg"
+            alt="SYSIUM TECH logo"
+            width={32}
+            height={32}
+            className="rounded-lg"
+          />
           <span className="text-white font-bold text-lg tracking-tight">
             SYSIUM <span className="text-sysium-400">TECH</span>
           </span>

@@ -16,7 +16,7 @@ const jsonLd = {
       '@id': 'https://www.sysiumtech.com/#organization',
       name: 'SYSIUM TECH',
       url: 'https://www.sysiumtech.com',
-      logo: 'https://www.sysiumtech.com/logo.png',
+      logo: 'https://www.sysiumtech.com/logo_sysium_icon_v2.jpg',
       description:
         'Plataforma de gestión de proyectos de construcción para PYMES en Latinoamérica.',
       areaServed: ['MX', 'CO', 'AR', 'PE', 'CL'],

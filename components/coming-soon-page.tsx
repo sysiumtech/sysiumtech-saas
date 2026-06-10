@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Zap } from 'lucide-react'
+import Image from 'next/image'
 
 interface ComingSoonPageProps {
   title: string
@@ -10,9 +10,13 @@ export default function ComingSoonPage({ title, description }: ComingSoonPagePro
   return (
     <div className="min-h-screen bg-[#0d1117] flex flex-col items-center justify-center px-4 text-center">
       <Link href="/" className="inline-flex items-center gap-2 mb-12">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sysium-500 to-orange-500 flex items-center justify-center">
-          <Zap className="w-4 h-4 text-white" strokeWidth={2.5} aria-hidden="true" />
-        </div>
+        <Image
+          src="/logo_sysium_icon_v2.jpg"
+          alt="SYSIUM TECH logo"
+          width={32}
+          height={32}
+          className="rounded-lg"
+        />
         <span className="text-white font-bold text-lg">SYSIUM TECH</span>
       </Link>
 
