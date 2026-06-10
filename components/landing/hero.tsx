@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle } from 'lucide-react'
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen bg-[#0d1117] flex items-center overflow-hidden pt-16">
+    <section className="relative min-h-dvh bg-[#0d1117] flex items-center overflow-hidden pt-16">
       {/* Background glow effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-sysium-600/10 rounded-full blur-[120px]" />
@@ -48,7 +48,7 @@ export default function Hero() {
             className="group inline-flex items-center gap-2 bg-gradient-to-r from-sysium-600 to-sysium-500 hover:from-sysium-500 hover:to-sysium-400 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg shadow-sysium-900/50 hover:shadow-sysium-800/50 text-base"
           >
             Empieza gratis — sin tarjeta
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
           </Link>
           <a
             href="#how-it-works"
@@ -66,7 +66,7 @@ export default function Hero() {
             'Sin contratos de permanencia',
           ].map((item) => (
             <span key={item} className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-sysium-500 flex-shrink-0" />
+              <CheckCircle className="w-4 h-4 text-sysium-500 flex-shrink-0" aria-hidden="true" />
               {item}
             </span>
           ))}

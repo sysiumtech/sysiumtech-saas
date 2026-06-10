@@ -113,7 +113,7 @@ export default function Pricing() {
               {plan.featured && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
                   <span className="inline-flex items-center gap-1 bg-gradient-to-r from-orange-500 to-orange-400 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
-                    <Zap className="w-3 h-3" />
+                    <Zap className="w-3 h-3" aria-hidden="true" />
                     Más popular
                   </span>
                 </div>
@@ -122,7 +122,7 @@ export default function Pricing() {
               {plan.enterprise && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap">
                   <span className="inline-flex items-center gap-1 bg-gradient-to-r from-slate-600 to-slate-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
-                    <Building2 className="w-3 h-3" />
+                    <Building2 className="w-3 h-3" aria-hidden="true" />
                     A medida
                   </span>
                 </div>
@@ -165,7 +165,7 @@ export default function Pricing() {
                   <li key={feature} className="flex items-start gap-2 text-xs">
                     <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
                       plan.featured ? 'text-sysium-300' : plan.enterprise ? 'text-slate-400' : 'text-sysium-500'
-                    }`} />
+                    }`} aria-hidden="true" />
                     <span className={
                       plan.featured ? 'text-slate-200' : plan.enterprise ? 'text-slate-300' : 'text-slate-600'
                     }>

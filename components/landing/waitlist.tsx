@@ -40,9 +40,10 @@ export default function Waitlist() {
     <section
       id="waitlist"
       className="relative bg-gradient-to-br from-[#0d1117] via-[#1a2332] to-[#0d1117] py-24 overflow-hidden"
+      aria-labelledby="waitlist-heading"
     >
       {/* Fondo decorativo */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-sysium-600/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-orange-500/5 rounded-full blur-2xl" />
       </div>
@@ -50,11 +51,14 @@ export default function Waitlist() {
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Badge */}
         <span className="inline-flex items-center gap-2 bg-sysium-600/20 border border-sysium-500/30 text-sysium-300 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
-          <Mail className="w-3.5 h-3.5" />
+          <Mail className="w-3.5 h-3.5" aria-hidden="true" />
           Acceso anticipado
         </span>
 
-        <h2 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
+        <h2
+          id="waitlist-heading"
+          className="text-4xl sm:text-5xl font-black text-white leading-tight mb-4"
+        >
           Sé de los primeros en{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-500">
             digitalizar tu constructora
@@ -68,9 +72,9 @@ export default function Waitlist() {
         </p>
 
         {status === 'success' ? (
-          <div className="flex flex-col items-center gap-4 animate-pulse-once">
-            <div className="flex items-center gap-3 bg-green-500/10 border border-green-500/30 text-green-400 px-6 py-4 rounded-2xl">
-              <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-3 bg-green-500/10 border border-green-500/30 text-green-400 px-6 py-4 rounded-2xl" role="status">
+              <CheckCircle2 className="w-6 h-6 flex-shrink-0" aria-hidden="true" />
               <div className="text-left">
                 <p className="font-bold text-white">¡Listo! Ya estás en la lista.</p>
                 <p className="text-sm text-green-300 mt-0.5">
@@ -80,29 +84,38 @@ export default function Waitlist() {
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" noValidate>
             <div className="relative flex-1">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <label htmlFor="waitlist-email" className="sr-only">
+                Tu correo electrónico
+              </label>
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" aria-hidden="true" />
               <input
+                id="waitlist-email"
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tucorreo@constructora.com"
+                autoComplete="email"
                 className="w-full pl-11 pr-4 py-3.5 bg-white/5 border border-white/10 text-white placeholder-slate-500 rounded-xl focus:outline-none focus:border-sysium-500 focus:ring-2 focus:ring-sysium-500/20 transition-all text-sm"
               />
             </div>
             <button
               type="submit"
               disabled={status === 'loading'}
+              aria-disabled={status === 'loading'}
               className="flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-400 hover:to-orange-300 text-white font-bold px-6 py-3.5 rounded-xl transition-all disabled:opacity-60 whitespace-nowrap text-sm shadow-lg shadow-orange-500/25"
             >
               {status === 'loading' ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                  <span className="sr-only">Enviando...</span>
+                </>
               ) : (
                 <>
                   Unirme gratis
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </>
               )}
             </button>
@@ -110,7 +123,7 @@ export default function Waitlist() {
         )}
 
         {errorMsg && (
-          <p className="mt-3 text-red-400 text-sm">{errorMsg}</p>
+          <p className="mt-3 text-red-400 text-sm" role="alert">{errorMsg}</p>
         )}
 
         {/* Prueba social */}

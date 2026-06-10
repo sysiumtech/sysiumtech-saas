@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2 mb-4">
               <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-sysium-500 to-orange-500 flex items-center justify-center">
-                <Zap className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+                <Zap className="w-3.5 h-3.5 text-white" strokeWidth={2.5} aria-hidden="true" />
               </div>
               <span className="text-white font-bold text-base">SYSIUM TECH</span>
             </Link>

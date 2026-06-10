@@ -83,7 +83,7 @@ export default function Features() {
               className="group p-6 rounded-2xl border border-slate-100 hover:border-sysium-100 bg-white hover:bg-sysium-50/30 transition-all hover:shadow-lg hover:shadow-sysium-100/50"
             >
               <div className={`w-11 h-11 rounded-xl ${feature.bg} flex items-center justify-center mb-4`}>
-                <feature.icon className={`w-5 h-5 ${feature.color}`} strokeWidth={2} />
+                <feature.icon className={`w-5 h-5 ${feature.color}`} strokeWidth={2} aria-hidden="true" />
               </div>
               <h3 className="text-base font-bold text-slate-900 mb-2">{feature.title}</h3>
               <p className="text-sm text-slate-500 leading-relaxed">{feature.description}</p>

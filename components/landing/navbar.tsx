@@ -9,11 +9,11 @@ export default function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0d1117]/80 backdrop-blur-md border-b border-white/5">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16" aria-label="Navegación principal">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sysium-500 to-orange-500 flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+            <Zap className="w-4 h-4 text-white" strokeWidth={2.5} aria-hidden="true" />
           </div>
           <span className="text-white font-bold text-lg tracking-tight">
             SYSIUM <span className="text-sysium-400">TECH</span>
@@ -57,14 +57,17 @@ export default function Navbar() {
         <button
           className="md:hidden text-slate-400 hover:text-white"
           onClick={() => setOpen(!open)}
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
         >
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {open ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
         </button>
       </nav>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-[#0d1117] border-t border-white/5 px-4 pb-4 pt-2 space-y-1">
+        <div id="mobile-menu" className="md:hidden bg-[#0d1117] border-t border-white/5 px-4 pb-4 pt-2 space-y-1">
           {[
             { label: 'Características', href: '#features' },
             { label: 'Cómo funciona', href: '#how-it-works' },
