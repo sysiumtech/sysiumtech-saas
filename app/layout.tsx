@@ -1,5 +1,11 @@
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 const BASE_URL = 'https://www.sysiumtech.com'
 
@@ -7,7 +13,7 @@ export const metadata: Metadata = {
   title: 'SYSIUM TECH — Gestión de Obras para PYMES en LATAM',
   description:
     'La plataforma todo-en-uno para gestionar proyectos de construcción en Latinoamérica. Presupuestos, inventario y equipos en un solo lugar.',
-  keywords: 'gestión de obras, constructoras, PYME, LATAM, software construcción, presupuestos',
+  keywords: 'gestión de obras, constructoras, PYME, LATAM, software construcción, presupuestos, software gestión de obras México, control presupuesto construcción Colombia',
   metadataBase: new URL(BASE_URL),
   alternates: {
     canonical: BASE_URL,
@@ -54,8 +60,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
-      <body>{children}</body>
+    <html lang="es" className={inter.className}>
+      <body>
+        {/* Skip-to-content: visible solo con foco de teclado */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-white focus:text-sysium-600 focus:font-semibold focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-sysium-500"
+        >
+          Saltar al contenido principal
+        </a>
+        {children}
+      </body>
     </html>
   )
 }

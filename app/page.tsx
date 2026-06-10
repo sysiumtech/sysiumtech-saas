@@ -148,7 +148,7 @@ export default function LandingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main>
+      <main id="main-content">
         <Navbar />
         <Hero />
         <Features />
