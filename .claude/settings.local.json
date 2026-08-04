@@ -4,7 +4,11 @@
       "Bash(npm install:*)",
       "Bash(npm run:*)",
       "Bash(taskkill /PID 8448 /F)",
-      "Bash(taskkill //PID 8448 //F)"
+      "Bash(taskkill //PID 8448 //F)",
+      "WebFetch(domain:www.sysiumtech.com)",
+      "Bash(npx tsc:*)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/tailwindcss/package.json'\\).version\\)\")",
+      "Bash(npx vercel:*)"
     ]
   }
 }
