@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation'
 
 const navItems = [
   { label: 'Resumen', href: '/dashboard', icon: LayoutDashboard },
-  { label: 'Proyectos', href: '/dashboard/projects', icon: FolderOpen },
+  { label: 'Obras', href: '/dashboard/obras', icon: FolderOpen },
   { label: 'Presupuestos', href: '/dashboard/budgets', icon: DollarSign },
   { label: 'Inventario', href: '/dashboard/inventory', icon: Package },
   { label: 'Equipo', href: '/dashboard/team', icon: Users },
@@ -63,11 +63,6 @@ export default function Sidebar() {
             >
               <item.icon className={`w-4 h-4 ${active ? 'text-sysium-400' : ''}`} strokeWidth={active ? 2.5 : 2} />
               {item.label}
-              {item.label === 'Alertas' && (
-                <span className="ml-auto bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                  3
-                </span>
-              )}
             </Link>
           )
         })}
