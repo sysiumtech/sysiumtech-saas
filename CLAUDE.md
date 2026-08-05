@@ -76,6 +76,31 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=   # solo para scripts admin/testing puntuales, JAMÁS en código de la app ni en el cliente
 ```
 
+## Deploy y variables de entorno en Vercel
+
+`.env.local` es solo para desarrollo local — **nunca** sube a git (ver sección de git abajo) y Vercel no lo lee. Para que producción funcione, las variables tienen que estar cargadas por separado en:
+
+**Vercel Dashboard → proyecto `sysiumtech-saas` → Settings → Environment Variables**, marcando **Production** y **Preview**:
+```
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+```
+(`SUPABASE_SERVICE_ROLE_KEY` no hace falta ahí — la app nunca la usa en runtime, solo en scripts sueltos de testing/admin.)
+
+Si estas variables faltan, el síntoma es que el login se queda pegado en "Ingresando..." con el error de consola `@supabase/ssr: Your project's URL and API key are required to create a Supabase client!`. Ya pasó una vez (2026-08-04) — producción nunca las tuvo configuradas hasta ese día, aunque el código llevaba tiempo dependiendo de ellas.
+
+Después de agregar/cambiar variables hay que darle **Redeploy** al último deployment — los deployments ya existentes no las recogen solos.
+
+## Flujo de git
+
+- **`main`** = producción. Cada push aquí dispara un deploy real a `www.sysiumtech.com`.
+- **`qa`** = donde se prueba antes de pasar a producción. Vercel le genera su propia URL de preview en cada push.
+- Flujo: commits en `qa` → push → probar en su preview URL → Pull Request `qa` → `main` en GitHub → merge → producción.
+
+**Nunca commitear `.env.local`** (ver `.env.local.example` para la plantilla sin secretos). El 2026-08-04 se descubrió que quedó trackeado en git desde antes (`git log -- .env.local`), exponiendo la anon key (pública, sin riesgo real) en el historial. Se corrigió con `git rm --cached .env.local` para que futuros cambios ya no se rastreen. **Ojo**: si vuelve a pasar algo similar, verificar que el archivo siga existiendo en disco después de un `git checkout`/`git pull` que cruce una rama donde el archivo todavía estaba trackeado — git puede borrarlo físicamente al aplicar el diff de "delete tracked file". Pasó una vez y se restauró a mano desde el contenido conocido.
+
+También se desvinculó `.next/` (327 archivos de build que no deberían vivir en git, se regeneran solos) y se agregó `.expo/` al `.gitignore` (carpeta de Expo/React Native sin relación con este proyecto Next.js).
+
 ## Cómo probar el flujo completo (login → dashboard → obras)
 
 El signup público (`/register` + `supabase.auth.signUp()`) depende del enviador de email por default de Supabase, que tiene un rate limit muy bajo (se agota rápido y **no** se libera aunque se desactive "Confirm email"). Para pruebas end-to-end, crear usuarios ya confirmados directo con la Admin API en un script suelto (no committeado):
@@ -87,8 +112,15 @@ await admin.auth.admin.createUser({ email, password, email_confirm: true, user_m
 
 Luego probar con Playwright (headless) contra `npm run dev`, revisando además `.next/dev/logs/next-development.log` para ver el error real de Postgres/PostgREST cuando el navegador solo muestra "server error" genérico.
 
-## Historial de cambios relevantes (2026-07-09)
+## Estado actual (2026-08-04)
 
+Verificado end-to-end **en producción** (`www.sysiumtech.com`): registro/login real, alta automática de constructora, dashboard y `/dashboard/obras` con datos reales, sin errores de consola. `main` y `qa` están mergeados y sincronizados con `origin`.
+
+Pendiente conocido, sin bloquear nada: `/forgot-password`, `/dashboard/alerts`, `/dashboard/settings`, `/dashboard/team`, `/dashboard/inventory` están enlazados desde el nav pero la página no existe (404). Ver `ESTRUCTURA.md` para el detalle de qué es cada archivo y los próximos pasos completos.
+
+## Historial de cambios relevantes
+
+**2026-07-09**
 - Clientes Supabase apuntando al schema `sysium_constructora` (antes usaban `public` por default)
 - Subido `@supabase/ssr` de `0.5.1` a `0.12.0` — la versión vieja era incompatible con los tipos de `@supabase/supabase-js` ya instalado (2.10x), colapsaba todo a `never`
 - Creados `lib/supabase/database.types.ts`, `lib/supabase/constructora.ts`, `lib/format.ts`
@@ -97,3 +129,10 @@ Luego probar con Playwright (headless) contra `npm run dev`, revisando además `
 - Fix condición de carrera en `getOrCreateConstructora` (+ constraint `UNIQUE(owner_id)` en Supabase)
 - Fix desfase de zona horaria en `formatDate`
 - En Supabase: schema `sysium_constructora` expuesto en Data API + GRANTs aplicados
+
+**2026-08-04**
+- Creada rama `qa` (staging) separada de `main` (producción)
+- Desvinculados `.env.local` y `.next/` de git; `.expo/` agregado a `.gitignore`
+- Merge de `qa` → `main` vía Pull Request, push a producción
+- Variables de entorno de Supabase configuradas en Vercel (Production + Preview) — faltaban, bloqueaban el login en producción
+- Verificación end-to-end contra producción real

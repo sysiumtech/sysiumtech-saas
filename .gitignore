@@ -28,3 +28,6 @@ npm-debug.log*
 
 # Ajeno a este proyecto (Expo/React Native)
 .expo/
+
+# Notas internas de trabajo, no publicadas
+ESTRUCTURA.md
