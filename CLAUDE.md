@@ -115,9 +115,9 @@ await admin.auth.admin.createUser({ email, password, email_confirm: true, user_m
 
 Luego probar con Playwright (headless) contra `npm run dev`, revisando además `.next/dev/logs/next-development.log` para ver el error real de Postgres/PostgREST cuando el navegador solo muestra "server error" genérico.
 
-## Estado actual (2026-08-04)
+## Estado actual (2026-08-06)
 
-Verificado end-to-end **en producción** (`www.sysiumtech.com`): registro/login real, alta automática de constructora, dashboard y `/dashboard/obras` con datos reales, sin errores de consola. `main` y `qa` están mergeados y sincronizados con `origin`.
+Verificado end-to-end **en producción** (`www.sysiumtech.com`): registro/login real, alta automática de constructora, dashboard, `/dashboard/obras`, alta de obra + cliente, y detalle de obra con etapas + checklist (crear etapa → agregar tareas → marcar completada → avance recalculado solo). Sin errores de consola. `main` y `qa` están mergeados y sincronizados con `origin`.
 
 Pendiente conocido, sin bloquear nada: `/forgot-password`, `/dashboard/alerts`, `/dashboard/settings`, `/dashboard/team`, `/dashboard/inventory` están enlazados desde el nav pero la página no existe (404). Ver `ESTRUCTURA.md` para el detalle de qué es cada archivo y los próximos pasos completos.
 
@@ -143,3 +143,7 @@ Pendiente conocido, sin bloquear nada: `/forgot-password`, `/dashboard/alerts`, 
 - `ESTRUCTURA.md` creado como mapa de archivos + roadmap, agregado al `.gitignore` (nota interna, no se publica)
 - `/dashboard/obras/new`: formulario de alta de obra + cliente (nuevo o existente), verificado end-to-end
 - `/dashboard/obras/[id]`: detalle de obra con etapas + checklist interactivo, verificado end-to-end (crear etapa → agregar tareas → marcar completada → avance se recalcula solo vía trigger de Postgres)
+
+**2026-08-06**
+- `/dashboard/obras/new`: 3 fixes — formato de miles en vivo en presupuesto/abonado (`lib/format.ts`: `formatNumberInput`/`parseNumberInput`), fecha de fin no puede ser anterior a la de inicio (`min` dinámico + validación), WhatsApp/correo del cliente validados (`lib/validation.ts`: `isValidWhatsapp`/`isValidEmail`)
+- Merge de `qa` → `main` (PR #4), `/dashboard/obras/[id]` y los 3 fixes verificados end-to-end en producción real
