@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { formatNumberInput, parseNumberInput } from '@/lib/format'
+import { isValidEmail, isValidWhatsapp } from '@/lib/validation'
 
 type Cliente = { id: string; nombre: string; whatsapp: string }
 
@@ -50,8 +52,22 @@ export default function NuevaObraForm({
       setError('Selecciona un cliente.')
       return
     }
-    if (clienteMode === 'nuevo' && (!clienteNombre.trim() || !clienteWhatsapp.trim())) {
-      setError('Nombre y WhatsApp del cliente son obligatorios.')
+    if (clienteMode === 'nuevo') {
+      if (!clienteNombre.trim() || !clienteWhatsapp.trim()) {
+        setError('Nombre y WhatsApp del cliente son obligatorios.')
+        return
+      }
+      if (!isValidWhatsapp(clienteWhatsapp)) {
+        setError('El WhatsApp debe tener entre 10 y 15 dígitos (puede incluir lada, espacios o guiones).')
+        return
+      }
+      if (clienteEmail.trim() && !isValidEmail(clienteEmail.trim())) {
+        setError('El correo del cliente no tiene un formato válido.')
+        return
+      }
+    }
+    if (fechaInicio && fechaFin && fechaFin < fechaInicio) {
+      setError('La fecha de fin estimado no puede ser anterior a la fecha de inicio.')
       return
     }
 
@@ -88,8 +104,8 @@ export default function NuevaObraForm({
       nombre: nombre.trim(),
       nombre_cliente: finalNombreCliente,
       direccion: direccion.trim() || null,
-      presupuesto_total: presupuestoTotal ? Number(presupuestoTotal) : 0,
-      abonado_total: abonadoTotal ? Number(abonadoTotal) : 0,
+      presupuesto_total: parseNumberInput(presupuestoTotal),
+      abonado_total: parseNumberInput(abonadoTotal),
       fecha_inicio: fechaInicio || null,
       fecha_estimada_fin: fechaFin || null,
     })
@@ -136,28 +152,32 @@ export default function NuevaObraForm({
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className={labelClass}>Presupuesto total</label>
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              required
-              value={presupuestoTotal}
-              onChange={(e) => setPresupuestoTotal(e.target.value)}
-              placeholder="850000"
-              className={inputClass}
-            />
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">$</span>
+              <input
+                type="text"
+                inputMode="decimal"
+                required
+                value={presupuestoTotal}
+                onChange={(e) => setPresupuestoTotal(formatNumberInput(e.target.value))}
+                placeholder="850,000"
+                className={`${inputClass} pl-7`}
+              />
+            </div>
           </div>
           <div>
             <label className={labelClass}>Abonado</label>
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={abonadoTotal}
-              onChange={(e) => setAbonadoTotal(e.target.value)}
-              placeholder="0"
-              className={inputClass}
-            />
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">$</span>
+              <input
+                type="text"
+                inputMode="decimal"
+                value={abonadoTotal}
+                onChange={(e) => setAbonadoTotal(formatNumberInput(e.target.value))}
+                placeholder="0"
+                className={`${inputClass} pl-7`}
+              />
+            </div>
           </div>
         </div>
 
@@ -167,7 +187,12 @@ export default function NuevaObraForm({
             <input
               type="date"
               value={fechaInicio}
-              onChange={(e) => setFechaInicio(e.target.value)}
+              onChange={(e) => {
+                setFechaInicio(e.target.value)
+                if (fechaFin && e.target.value && fechaFin < e.target.value) {
+                  setFechaFin('')
+                }
+              }}
               className={inputClass}
             />
           </div>
@@ -176,6 +201,7 @@ export default function NuevaObraForm({
             <input
               type="date"
               value={fechaFin}
+              min={fechaInicio || undefined}
               onChange={(e) => setFechaFin(e.target.value)}
               className={inputClass}
             />
@@ -242,7 +268,8 @@ export default function NuevaObraForm({
               <div>
                 <label className={labelClass}>WhatsApp</label>
                 <input
-                  type="text"
+                  type="tel"
+                  inputMode="tel"
                   value={clienteWhatsapp}
                   onChange={(e) => setClienteWhatsapp(e.target.value)}
                   placeholder="+52 33 1234 5678"
