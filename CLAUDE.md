@@ -50,11 +50,12 @@ Ambos ya están aplicados en el proyecto de Supabase actual.
 | `/register`, `/login` | Funcionales, usan Supabase Auth |
 | `/dashboard` | Datos reales: obras activas, % presupuesto ejecutado, avance promedio, obras recientes, alertas (`actualizaciones` con `hubo_retraso = true`) |
 | `/dashboard/obras` | Listado real de obras de la constructora del usuario (avance, presupuesto/abonado, fechas, estado) |
+| `/dashboard/obras/new` | Alta de obra + cliente (nuevo o existente) en un mismo formulario. Sin esto, la única forma de crear una obra era por script/SQL directo |
 | `/dashboard/budgets`, `/dashboard/projects`, `/dashboard/projects/[id]` | Preexistentes del scaffold inicial, **no** conectadas a Supabase todavía (mock) |
 
 ### Pendiente / próximos pasos obvios (no incluidos aún)
 
-- Crear/editar obra (formulario)
+- Editar obra existente (hoy solo se puede crear, no editar desde la UI)
 - Detalle de obra: etapas + checklist
 - Subida de fotos/documentos (Supabase Storage)
 - Portal del cliente (ya tiene políticas RLS `anon` listas vía `portal_token` en el SQL, falta el frontend)
@@ -65,6 +66,7 @@ Ambos ya están aplicados en el proyecto de Supabase actual.
 - `lib/supabase/client.ts` / `server.ts` — clientes Supabase (browser/server), ambos apuntan a `db.schema: 'sysium_constructora'`
 - `lib/supabase/database.types.ts` — tipos TS a mano de las 8 tablas (no autogenerados; actualizar manualmente si el schema SQL cambia)
 - `lib/supabase/constructora.ts` — `getOrCreateConstructora()`
+- `app/(dashboard)/dashboard/obras/new/` — `page.tsx` (Server Component: carga constructora + clientes existentes) + `nueva-obra-form.tsx` (Client Component: inserta cliente si es nuevo, luego la obra, vía `lib/supabase/client.ts`)
 - `lib/format.ts` — `formatCurrency`, `formatCurrencyCompact`, `formatDate` (fechas se formatean en `timeZone: 'UTC'` a propósito, porque las columnas `date` de Postgres no tienen hora y se parsean como medianoche UTC)
 - `components/dashboard/sidebar.tsx` — nav del dashboard
 
@@ -136,3 +138,6 @@ Pendiente conocido, sin bloquear nada: `/forgot-password`, `/dashboard/alerts`, 
 - Merge de `qa` → `main` vía Pull Request, push a producción
 - Variables de entorno de Supabase configuradas en Vercel (Production + Preview) — faltaban, bloqueaban el login en producción
 - Verificación end-to-end contra producción real
+- Limpieza de repo: borrados `app/dashboard.html`, `app/login.html`, `landing-page/` (prototipos estáticos muertos, Next.js nunca los sirvió) y el logo duplicado en la raíz
+- `ESTRUCTURA.md` creado como mapa de archivos + roadmap, agregado al `.gitignore` (nota interna, no se publica)
+- `/dashboard/obras/new`: formulario de alta de obra + cliente (nuevo o existente), verificado end-to-end
