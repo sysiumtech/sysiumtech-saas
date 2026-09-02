@@ -210,6 +210,9 @@ export default async function DashboardPage() {
         <div className="bg-[#161b27] border border-white/5 rounded-2xl overflow-hidden">
           <div className="flex items-center justify-between px-6 py-4 border-b border-white/5">
             <h2 className="text-sm font-bold text-white">Alertas recientes</h2>
+            <Link href="/dashboard/alerts" className="text-xs text-sysium-400 hover:text-sysium-300 flex items-center gap-1 transition-colors">
+              Ver todas <ArrowRight className="w-3 h-3" />
+            </Link>
           </div>
           {!retrasos || retrasos.length === 0 ? (
             <div className="px-6 py-10 text-center text-sm text-slate-500">
