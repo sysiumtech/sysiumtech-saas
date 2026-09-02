@@ -1,4 +1,5 @@
-import { MapPin } from 'lucide-react'
+import { MapPin, Plus } from 'lucide-react'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getOrCreateConstructora } from '@/lib/supabase/constructora'
@@ -46,16 +47,32 @@ export default async function ObrasPage() {
 
   return (
     <div className="p-6 lg:p-8 space-y-6">
-      <div>
-        <h1 className="text-xl font-black text-white">Obras</h1>
-        <p className="text-slate-500 text-sm mt-0.5">
-          {constructora.nombre} · {todasObras.length} {todasObras.length === 1 ? 'obra registrada' : 'obras registradas'}
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-black text-white">Obras</h1>
+          <p className="text-slate-500 text-sm mt-0.5">
+            {constructora.nombre} · {todasObras.length} {todasObras.length === 1 ? 'obra registrada' : 'obras registradas'}
+          </p>
+        </div>
+        <Link
+          href="/dashboard/obras/new"
+          className="inline-flex items-center gap-2 bg-sysium-600 hover:bg-sysium-500 text-white text-sm font-bold px-4 py-2.5 rounded-xl transition-colors"
+        >
+          <Plus className="w-4 h-4" />
+          Nueva obra
+        </Link>
       </div>
 
       {todasObras.length === 0 ? (
         <div className="bg-[#161b27] border border-white/5 rounded-2xl px-6 py-16 text-center">
-          <p className="text-sm text-slate-400">Aún no tienes obras registradas.</p>
+          <p className="text-sm text-slate-400 mb-4">Aún no tienes obras registradas.</p>
+          <Link
+            href="/dashboard/obras/new"
+            className="inline-flex items-center gap-2 bg-sysium-600 hover:bg-sysium-500 text-white text-sm font-bold px-4 py-2.5 rounded-xl transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            Crear tu primera obra
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
