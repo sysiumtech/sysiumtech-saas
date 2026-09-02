@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getOrCreateConstructora } from '@/lib/supabase/constructora'
 import SettingsForm from './settings-form'
+import ChangePasswordForm from './change-password-form'
 
 export default async function SettingsPage() {
   const supabase = await createClient()
@@ -23,6 +24,7 @@ export default async function SettingsPage() {
       </div>
 
       <SettingsForm constructoraId={constructora.id} nombreInicial={constructora.nombre} email={user.email ?? ''} />
+      <ChangePasswordForm />
     </div>
   )
 }
