@@ -5,9 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
   FolderOpen,
-  Package,
   DollarSign,
-  Users,
   Bell,
   Settings,
   Zap,
@@ -20,8 +18,6 @@ const navItems = [
   { label: 'Resumen', href: '/dashboard', icon: LayoutDashboard },
   { label: 'Obras', href: '/dashboard/obras', icon: FolderOpen },
   { label: 'Presupuestos', href: '/dashboard/budgets', icon: DollarSign },
-  { label: 'Inventario', href: '/dashboard/inventory', icon: Package },
-  { label: 'Equipo', href: '/dashboard/team', icon: Users },
   { label: 'Alertas', href: '/dashboard/alerts', icon: Bell },
 ]
 
