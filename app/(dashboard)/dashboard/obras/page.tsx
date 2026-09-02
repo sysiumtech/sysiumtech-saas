@@ -77,7 +77,11 @@ export default async function ObrasPage() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
           {todasObras.map((obra) => (
-            <div key={obra.id} className="bg-[#161b27] border border-white/5 rounded-2xl p-5 flex flex-col gap-4">
+            <Link
+              key={obra.id}
+              href={`/dashboard/obras/${obra.id}`}
+              className="bg-[#161b27] border border-white/5 hover:border-sysium-500/30 rounded-2xl p-5 flex flex-col gap-4 transition-colors"
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-bold text-white">{obra.nombre}</p>
@@ -132,7 +136,7 @@ export default async function ObrasPage() {
                   <p className="text-slate-200 font-medium mt-0.5">{formatDate(obra.fecha_estimada_fin)}</p>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
