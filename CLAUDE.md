@@ -51,12 +51,13 @@ Ambos ya están aplicados en el proyecto de Supabase actual.
 | `/dashboard` | Datos reales: obras activas, % presupuesto ejecutado, avance promedio, obras recientes, alertas (`actualizaciones` con `hubo_retraso = true`) |
 | `/dashboard/obras` | Listado real de obras de la constructora del usuario (avance, presupuesto/abonado, fechas, estado) |
 | `/dashboard/obras/new` | Alta de obra + cliente (nuevo o existente) en un mismo formulario. Sin esto, la única forma de crear una obra era por script/SQL directo |
+| `/dashboard/obras/[id]` | Detalle de obra: resumen + etapas + checklist interactivo (marcar/desmarcar tareas). Altas mínimas de etapa y de tarea incluidas. El avance (`avance_pct` de etapa y de obra) lo recalcula solo el trigger `recalcular_avance()` de Postgres — el código nunca lo escribe |
 | `/dashboard/budgets`, `/dashboard/projects`, `/dashboard/projects/[id]` | Preexistentes del scaffold inicial, **no** conectadas a Supabase todavía (mock) |
 
 ### Pendiente / próximos pasos obvios (no incluidos aún)
 
 - Editar obra existente (hoy solo se puede crear, no editar desde la UI)
-- Detalle de obra: etapas + checklist
+- Editar/eliminar etapas y tareas de checklist (hoy solo se pueden crear y marcar/desmarcar)
 - Subida de fotos/documentos (Supabase Storage)
 - Portal del cliente (ya tiene políticas RLS `anon` listas vía `portal_token` en el SQL, falta el frontend)
 - Conectar `/dashboard/budgets`, `/dashboard/team`, `/dashboard/inventory` a datos reales
@@ -141,3 +142,4 @@ Pendiente conocido, sin bloquear nada: `/forgot-password`, `/dashboard/alerts`, 
 - Limpieza de repo: borrados `app/dashboard.html`, `app/login.html`, `landing-page/` (prototipos estáticos muertos, Next.js nunca los sirvió) y el logo duplicado en la raíz
 - `ESTRUCTURA.md` creado como mapa de archivos + roadmap, agregado al `.gitignore` (nota interna, no se publica)
 - `/dashboard/obras/new`: formulario de alta de obra + cliente (nuevo o existente), verificado end-to-end
+- `/dashboard/obras/[id]`: detalle de obra con etapas + checklist interactivo, verificado end-to-end (crear etapa → agregar tareas → marcar completada → avance se recalcula solo vía trigger de Postgres)
