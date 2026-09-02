@@ -52,6 +52,9 @@ Ambos ya están aplicados en el proyecto de Supabase actual.
 | `/dashboard/obras` | Listado real de obras de la constructora del usuario (avance, presupuesto/abonado, fechas, estado) |
 | `/dashboard/obras/new` | Alta de obra + cliente (nuevo o existente) en un mismo formulario. Sin esto, la única forma de crear una obra era por script/SQL directo |
 | `/dashboard/obras/[id]` | Detalle de obra: resumen + etapas + checklist interactivo (marcar/desmarcar tareas). Altas mínimas de etapa y de tarea incluidas. El avance (`avance_pct` de etapa y de obra) lo recalcula solo el trigger `recalcular_avance()` de Postgres — el código nunca lo escribe |
+| `/forgot-password`, `/update-password` | Recuperación de contraseña real (`resetPasswordForEmail` + `updateUser`). Requiere agregar las URLs de redirect en Supabase (ver "Deploy y variables de entorno" abajo) |
+| `/dashboard/alerts` | Listado completo de alertas de retraso (`actualizaciones` con `hubo_retraso = true`), cada una enlaza a su obra |
+| `/dashboard/settings` | Edición mínima: nombre de la constructora |
 | `/dashboard/budgets`, `/dashboard/projects`, `/dashboard/projects/[id]` | Preexistentes del scaffold inicial, **no** conectadas a Supabase todavía (mock) |
 
 ### Pendiente / próximos pasos obvios (no incluidos aún)
@@ -60,7 +63,8 @@ Ambos ya están aplicados en el proyecto de Supabase actual.
 - Editar/eliminar etapas y tareas de checklist (hoy solo se pueden crear y marcar/desmarcar)
 - Subida de fotos/documentos (Supabase Storage)
 - Portal del cliente (ya tiene políticas RLS `anon` listas vía `portal_token` en el SQL, falta el frontend)
-- Conectar `/dashboard/budgets`, `/dashboard/team`, `/dashboard/inventory` a datos reales
+- Conectar `/dashboard/budgets` a datos reales
+- "Equipo" e "Inventario": quitados del sidebar a propósito — `sysium_constructora` no tiene tablas para multi-usuario ni inventario. Habría que diseñar ese modelo de datos antes de construir la página, no es solo frontend
 
 ## Archivos clave
 
@@ -93,6 +97,15 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 Si estas variables faltan, el síntoma es que el login se queda pegado en "Ingresando..." con el error de consola `@supabase/ssr: Your project's URL and API key are required to create a Supabase client!`. Ya pasó una vez (2026-08-04) — producción nunca las tuvo configuradas hasta ese día, aunque el código llevaba tiempo dependiendo de ellas.
 
 Después de agregar/cambiar variables hay que darle **Redeploy** al último deployment — los deployments ya existentes no las recogen solos.
+
+## Recuperación de contraseña (Supabase Redirect URLs)
+
+`/forgot-password` llama a `supabase.auth.resetPasswordForEmail(email, { redirectTo: '.../update-password' })`. Para que el link del correo caiga en la página correcta (y no en la Site URL default de Supabase), hay que agregar en **Supabase Dashboard → Authentication → URL Configuration → Redirect URLs**:
+```
+http://localhost:3000/update-password
+https://www.sysiumtech.com/update-password
+```
+Sin esto, el `redirectTo` se ignora silenciosamente y el usuario termina en el lugar equivocado tras dar clic en el correo — no da error, solo redirige mal. Aún no verificado en producción/dev real por esto (pendiente de que se agreguen estas URLs).
 
 ## Flujo de git
 
@@ -147,3 +160,7 @@ Pendiente conocido, sin bloquear nada: `/forgot-password`, `/dashboard/alerts`, 
 **2026-08-06**
 - `/dashboard/obras/new`: 3 fixes — formato de miles en vivo en presupuesto/abonado (`lib/format.ts`: `formatNumberInput`/`parseNumberInput`), fecha de fin no puede ser anterior a la de inicio (`min` dinámico + validación), WhatsApp/correo del cliente validados (`lib/validation.ts`: `isValidWhatsapp`/`isValidEmail`)
 - Merge de `qa` → `main` (PR #4), `/dashboard/obras/[id]` y los 3 fixes verificados end-to-end en producción real
+- `/forgot-password` + `/update-password`: recuperación de contraseña real. Falta agregar las Redirect URLs en Supabase (ver sección arriba) antes de poder verificar el flujo completo con el link del correo
+- `/dashboard/alerts`: listado completo de alertas de retraso, enlaza a cada obra
+- `/dashboard/settings`: edición mínima del nombre de la constructora
+- Sidebar: quitados "Inventario" y "Equipo" (sin tablas en el schema todavía, se dejaron fuera en vez de construir algo con un modelo de datos inventado a la carrera)
