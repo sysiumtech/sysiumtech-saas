@@ -130,9 +130,11 @@ Luego probar con Playwright (headless) contra `npm run dev`, revisando además `
 
 ## Estado actual (2026-08-06)
 
-Verificado end-to-end **en producción** (`www.sysiumtech.com`): registro/login real, alta automática de constructora, dashboard, `/dashboard/obras`, alta de obra + cliente, y detalle de obra con etapas + checklist (crear etapa → agregar tareas → marcar completada → avance recalculado solo). Sin errores de consola. `main` y `qa` están mergeados y sincronizados con `origin`.
+Verificado end-to-end **en producción** (`www.sysiumtech.com`): registro/login real, alta automática de constructora, dashboard, `/dashboard/obras`, alta de obra + cliente, detalle de obra con etapas + checklist (crear etapa → agregar tareas → marcar completada → avance recalculado solo), `/dashboard/alerts`, `/dashboard/settings` (edita nombre, se refleja en dashboard), y sidebar sin "Inventario"/"Equipo". Sin errores de consola. `main` y `qa` están mergeados y sincronizados con `origin`.
 
-Pendiente conocido, sin bloquear nada: `/forgot-password`, `/dashboard/alerts`, `/dashboard/settings`, `/dashboard/team`, `/dashboard/inventory` están enlazados desde el nav pero la página no existe (404). Ver `ESTRUCTURA.md` para el detalle de qué es cada archivo y los próximos pasos completos.
+`/forgot-password` verificado hasta donde se puede sin recibir el correo real: el request llega bien formado a Supabase con el `redirect_to` correcto de producción (`https://www.sysiumtech.com/update-password`), pero el rate limit de email compartido de Supabase lo bloquea antes de enviarlo — no es un bug, es la misma limitación ya documentada. **Sigue pendiente**: confirmar en Supabase que las Redirect URLs (`.../update-password`, local y producción) ya se agregaron, y probar el flujo completo con un correo real cuando el rate limit se libere.
+
+**Punto 3 del roadmap (links rotos del nav) → completo y en producción.** Ver "Próximos pasos para mañana" en `ESTRUCTURA.md`.
 
 ## Historial de cambios relevantes
 
@@ -164,3 +166,4 @@ Pendiente conocido, sin bloquear nada: `/forgot-password`, `/dashboard/alerts`, 
 - `/dashboard/alerts`: listado completo de alertas de retraso, enlaza a cada obra
 - `/dashboard/settings`: edición mínima del nombre de la constructora
 - Sidebar: quitados "Inventario" y "Equipo" (sin tablas en el schema todavía, se dejaron fuera en vez de construir algo con un modelo de datos inventado a la carrera)
+- Merge de `qa` → `main` (PR #6), todo lo anterior verificado end-to-end en producción real (excepto el correo de recuperación, bloqueado por rate limit — ver "Estado actual")
